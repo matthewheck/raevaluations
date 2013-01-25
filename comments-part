@@ -1,0 +1,73 @@
+data <- read.csv("~/Downloads/evaluations.csv", header=T)
+data <- data[order(data$RA.s.Name),]
+
+sink(file="~/Downloads/evaluations_text.txt")
+
+####### store indices of related posts by RA name #######
+for(i in 1:length(levels(data$RA.s.Name))) {
+RAvec <- 0
+for (j in 1:nrow(data)) {
+if (levels(data$RA.s.Name)[i]==data$RA.s.Name[j]) {
+temp <- j
+RAvec <- c(RAvec, temp)
+}
+else {
+next
+}
+}
+
+####### print out data for RA #######
+low <- RAvec[2]
+high <- tail(RAvec,1)
+
+for (k in 1:length(colnames(data))) {
+
+####### print out text responses #######
+if (k==1 ||k==3 || k==4 || k==5 || k==6 || k==7 || k==8 || k==9) {
+
+name <- colnames(data)[k]
+
+if (name == "Reappointment.Why.or.why.not"){
+  tempName <- "$ Reappointment - Why or why not?"
+} else if (name == "Anything.else"){
+	tempName <- "$ Anything else?"
+} else if (name == "What.has.your.RA.done.that.you.have.liked"){
+	tempName <- "$ What has your RA done that you have liked?"
+} else if (name == "How.could.your.RA.make.your.experience.better"){
+	tempName <- "$ How could your RA make your experience better?"
+} else if (name == "Any.specific.comments.on.hall.events"){
+	tempName <- "$ Do you have any specific comments on hall events?"
+} else if (name == "Do.you.have.any.general.comments.about.your.dorm"){
+	tempName <- "$ Do you have any general comments about your dorm?"
+} else if (name == "How.were.those.interactions.Do.you.feel.other.RAs.are.approachable.available.etc"){
+	tempName <- "$ How were your interactions with other RAs? Were they approachable, available, etc?"
+}
+
+x <- low
+y <- high
+
+if (k == 1){
+	print("*****")
+	print(as.character(data[[name]][x]), quote=FALSE)
+
+} else {
+
+print(tempName, max.levels=0, quote=FALSE)
+	
+while (x <= y){
+
+	if (nchar(as.character(data[[name]][x])) != 0){
+	
+print(as.character(data[[name]][x]), quote=FALSE)
+
+	}
+	
+	x <- x+1
+}
+}
+
+
+}
+}
+
+}
