@@ -23,6 +23,7 @@ next
 }
 
 ####### print out data for RA #######
+
 low <- RAvec[2]
 high <- tail(RAvec,1)
 
@@ -31,8 +32,8 @@ for (k in 1:length(colnames(data))) {
 ####### print out text responses #######
 if (k==1 || k==3 || k==4 || k==5 || k==6 || k==7 || k==8 || k==9) {
 
-name <- colnames(data)[k]
-print(data[[name]][low:high])
+#name <- colnames(data)[k]
+#print(data[[name]][low:high])
 
 }
 
@@ -68,7 +69,7 @@ if (name=="Your.Graduating.Year"){
 } else if (name == "Ratings.Facilitates.Interactions"){
 	name <- "Facilitates interactions?"
 } else if (name == "Ratings.Hall.Life" ){
-	name <- "Participates in hall life/plans events"
+	name <- "Participates in hall life/plans events?"
 } else if (name == "Ratings.Sets.Example"){
 	name <- "Sets a good example"
 } else if (name == "Is.there.hall.life.where.you.live."){
@@ -83,7 +84,7 @@ if (name=="Your.Graduating.Year"){
 	name <- "Roommate relationship"
 }
 
-barplot(x, main=c(levels(data$RA.s.Name)[i], name), ylab="Number of Responses", cex.axis="1", cex.main=1, las=3)
+barplot(x, main=c(levels(data$RA.s.Name)[i], name), ylab="Number of Responses", cex.axis="1", cex.main=1, las=3, col=c("#527483", "#088da5", "#a1bd68", "#fda97b", "#f6dc76"))
 
 }
 }
