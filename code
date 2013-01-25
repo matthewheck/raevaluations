@@ -1,0 +1,94 @@
+data <-read.csv("~/Downloads/evaluations.csv", header=T)
+data <- data[order(data$RA.s.Name),]
+
+
+####### save file as a pdf, standard letter size #######
+pdf(file="~/Downloads/evaluations.pdf", paper="letter", width=7, height=10) 
+
+####### print 3 rows and 3 columns each page #######
+par(mfrow=c(3,3), mai=c(1,.5,1,.5))
+
+
+####### store indices of related posts by RA name #######
+for(i in 1:length(levels(data$RA.s.Name))) {
+RAvec <- 0
+for (j in 1:nrow(data)) {
+if (levels(data$RA.s.Name)[i]==data$RA.s.Name[j]) {
+temp <- j
+RAvec <- c(RAvec, temp)
+}
+else {
+next
+}
+}
+
+####### print out data for RA #######
+low <- RAvec[2]
+high <- tail(RAvec,1)
+
+for (k in 1:length(colnames(data))) {
+
+####### print out text responses #######
+if (k==1 || k==3 || k==4 || k==5 || k==6 || k==7 || k==8 || k==9) {
+
+name <- colnames(data)[k]
+print(data[[name]][low:high])
+
+}
+
+####### print out graph responses #######
+
+else {
+name <- colnames(data)[k]
+x <- table(data[[name]][low:high])
+
+####### Make names prettier #######
+if (name=="Your.Graduating.Year"){
+  name <- "Graduating Year"
+} else if (name == "Do.you.like.your.RA"){
+	name <- "Do You Like Your RA?"
+} else if (name == "Overall.how.would.you.rate.your.RA.s.performance"){
+	name <- "Overall Performance"
+} else if (name == "Would.you.recommend.your.RA.for.reappointment"){
+	name <- "Recommend for Reappointment?"
+} else if (name == "Is.there.hall.life.where.you.live."){
+	name <- "Is there hall life?"
+} else if (name == "Ratings.Available"){
+	name <- "Available, visible, accessible?"
+} else if (name == "Ratings.Approachable"){
+	name <- "Approachable?"
+} else if (name == "Ratings.Knows.Me"){
+	name <- "Knows who I am?"
+} else if (name == "Ratings.Communicates.Effectively"){
+	name <- "Communicates effectively?"
+} else if (name == "Ratings.Communicates.respectfully"){
+	name <- "Communicates respectfully?"
+} else if (name == "Ratings.Confronts.Problems"){
+	name <- "Confronts problems?"
+} else if (name == "Ratings.Facilitates.Interactions"){
+	name <- "Facilitates interactions?"
+} else if (name == "Ratings.Hall.Life" ){
+	name <- "Participates in hall life/plans events"
+} else if (name == "Ratings.Sets.Example"){
+	name <- "Sets a good example"
+} else if (name == "Is.there.hall.life.where.you.live."){
+	name <- "Is there hall life?"
+} else if (name == "Hall.Events.Number.of.hall.floor.events"){
+	name <- "Satisfaction w/ # of Events"
+} else if (name == "Hall.Events.The.appropriateness.of.hall.events"){
+	name <- "Appropriateness of Events"
+} else if (name == "Do.you.interact.with.other.Ras"){
+	name <- "Interact w/ other RAs?"
+} else if (name == "How.would.you.characterize.your.relationship.with.your.roommate"){
+	name <- "Roommate relationship"
+}
+
+barplot(x, main=c(levels(data$RA.s.Name)[i], name), ylab="Number of Responses", cex.axis="1", cex.main=1, las=3)
+
+}
+}
+#############
+
+}
+
+dev.off()
